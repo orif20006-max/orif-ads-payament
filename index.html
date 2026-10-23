@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To‘lov va kartalar | ORIF-ADS</title>
+  <meta name="description" content="ORIF-ADS xizmatlari uchun to‘lov kartalari va to‘lov chekini xavfsiz yuborish sahifasi.">
+  <meta name="theme-color" content="#0a0e17">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0e17;
+      --card-border: rgba(255, 255, 255, 0.12);
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-blur: blur(20px);
+      --humo-glow: rgba(0, 214, 143, 0.35);
+      --uzcard-glow: rgba(0, 122, 255, 0.35);
+      --visa-glow: rgba(142, 68, 255, 0.35);
+      --accent-gold: #ffbe3d;
+      --danger-red: #ff3366;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      padding: 30px 16px 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .ambient-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.45;
+      animation: float 14s ease-in-out infinite alternate;
+    }
+
+    .blob-1 {
+      width: 420px;
+      height: 420px;
+      background: #00d68f;
+      top: -100px;
+      left: -100px;
+    }
+
+    .blob-2 {
+      width: 480px;
+      height: 480px;
+      background: #007aff;
+      top: 40%;
+      right: -150px;
+      animation-delay: -5s;
+    }
+
+    .blob-3 {
+      width: 380px;
+      height: 380px;
+      background: #8e44ff;
+      bottom: -100px;
+      left: 15%;
+      animation-delay: -9s;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px) rotate(0deg) scale(1); }
+      100% { transform: translateY(60px) rotate(30deg) scale(1.12); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #00d68f;
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      background: #00d68f;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #00d68f;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    h1 {
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 30%, rgba(255,255,255,0.65) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .owner-subtitle {
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--accent-gold);
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .owner-subtitle span.line {
+      display: inline-block;
+      width: 30px;
+      height: 2px;
+      background: var(--accent-gold);
+      opacity: 0.5;
+    }
+
+    /* Cards Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 26px;
+      width: 100%;
+    }
+
+    .card-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      perspective: 1000px;
+    }
+
+    .bank-card {
+      width: 100%;
+      aspect-ratio: 1.586 / 1;
+      max-width: 360px;
+      border-radius: 20px;
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    }
+
+    .bank-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.02) 60%, rgba(0,0,0,0.2) 100%);
+      pointer-events: none;
+    }
+
+    .bank-card:hover {
+      transform: translateY(-8px) scale(1.02);
+    }
+
+    .card-humo {
+      background: linear-gradient(135deg, rgba(0, 214, 143, 0.22) 0%, rgba(10, 36, 26, 0.85) 100%);
+    }
+    .card-humo:hover {
+      box-shadow: 0 20px 45px var(--humo-glow), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+      border-color: rgba(0, 214, 143, 0.5);
+    }
+
+    .card-uzcard {
+      background: linear-gradient(135deg, rgba(0, 122, 255, 0.22) 0%, rgba(10, 28, 54, 0.85) 100%);
+    }
+    .card-uzcard:hover {
+      box-shadow: 0 20px 45px var(--uzcard-glow), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+      border-color: rgba(0, 122, 255, 0.5);
+    }
+
+    .card-visa {
+      background: linear-gradient(135deg, rgba(142, 68, 255, 0.22) 0%, rgba(32, 14, 58, 0.85) 100%);
+    }
+    .card-visa:hover {
+      box-shadow: 0 20px 45px var(--visa-glow), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+      border-color: rgba(142, 68, 255, 0.5);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .chip-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chip {
+      width: 44px;
+      height: 32px;
+      background: linear-gradient(135deg, #e6c875 0%, #a27c2b 100%);
+      border-radius: 6px;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.4);
+    }
+
+    .chip::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(0,0,0,0.3);
+    }
+
+    .contactless-icon {
+      width: 20px;
+      height: 20px;
+      opacity: 0.7;
+    }
+
+    .card-brand-logo {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .card-number-area {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0, 0, 0, 0.28);
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      transition: all 0.2s;
+    }
+
+    .card-number {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: clamp(16px, 4.3vw, 20px);
+      letter-spacing: 2px;
+      color: #ffffff;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+      user-select: all;
+    }
+
+    .copy-icon-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: #fff;
+      padding: 6px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .copy-icon-btn svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      position: relative;
+      z-index: 2;
+    }
+
+    .card-holder-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .info-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 2px;
+    }
+
+    .holder-name {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+
+    .tap-hint {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-label-tag {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #fff;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50px;
+    }
+
+    /* Warning Banner */
+    .warning-card {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(255, 51, 102, 0.15) 0%, rgba(20, 10, 16, 0.7) 100%);
+      border: 1px solid rgba(255, 51, 102, 0.4);
+      border-radius: 18px;
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 10px 30px rgba(255, 51, 102, 0.2);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+    }
+
+    .warning-icon {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 51, 102, 0.2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--danger-red);
+    }
+
+    .warning-text h4 {
+      color: #ff527b;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .warning-text p {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.4;
+    }
+
+    /* Form Section */
+    .form-wrapper {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: clamp(24px, 5vw, 40px);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .form-title-group {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .form-title-group h3 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .form-title-group p {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 14px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group label {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .form-group input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 14px 16px;
+      color: #fff;
+      font-size: 15px;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .form-group input:focus {
+      border-color: #007aff;
+      background: rgba(0, 0, 0, 0.55);
+      box-shadow: 0 0 16px rgba(0, 122, 255, 0.35);
+    }
+
+    .form-group input::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .file-notice-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 14px;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .file-notice-icon {
+      flex-shrink: 0;
+      width: 38px;
+      height: 38px;
+      background: rgba(0, 214, 143, 0.15);
+      color: #00d68f;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .file-notice-text {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.4;
+    }
+
+    .file-notice-text strong {
+      color: #fff;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #007aff 0%, #8e44ff 100%);
+      border: none;
+      border-radius: 14px;
+      padding: 16px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s;
+      box-shadow: 0 10px 25px rgba(0, 122, 255, 0.4);
+      margin-top: 6px;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(142, 68, 255, 0.5);
+    }
+
+    .submit-btn:active {
+      transform: translateY(1px);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      background: rgba(18, 22, 34, 0.95);
+      border: 1px solid #00d68f;
+      color: #fff;
+      padding: 14px 22px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6), 0 0 18px rgba(0, 214, 143, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 100;
+      transform: translateY(120px);
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      backdrop-filter: blur(10px);
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .bank-card:focus-visible,
+    .copy-icon-btn:focus-visible,
+    .submit-btn:focus-visible,
+    .form-group input:focus-visible {
+      outline: 2px solid #00d68f;
+      outline-offset: 4px;
+    }
+
+    .form-wrapper {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-wrapper::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 3px;
+      background: linear-gradient(90deg, #00d68f, #007aff, #8e44ff);
+      opacity: .9;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      width: 100%;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.035);
+      border-radius: 14px;
+      color: rgba(255,255,255,.75);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .step-number {
+      display: grid;
+      place-items: center;
+      flex: 0 0 30px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(0,214,143,.13);
+      border: 1px solid rgba(0,214,143,.35);
+      color: #00d68f;
+      font-weight: 700;
+    }
+
+    .secure-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: rgba(255,255,255,.58);
+      font-size: 12px;
+      line-height: 1.5;
+      margin-top: 2px;
+    }
+
+    .secure-note svg {
+      flex: 0 0 17px;
+      margin-top: 1px;
+      color: #00d68f;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .steps {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .step {
+        padding: 11px 13px;
+      }
+      .warning-card {
+        align-items: flex-start;
+        padding: 16px;
+      }
+      .warning-text p {
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .bank-card {
+        padding: 18px 18px;
+      }
+      .card-number {
+        font-size: 15px;
+        letter-spacing: 1.5px;
+      }
+    }
+
+    /* ===== Yangi dizayn qatlami ===== */
+    body {
+      background:
+        radial-gradient(1200px 600px at 50% -10%, rgba(0,122,255,.16), transparent 60%),
+        radial-gradient(900px 500px at 100% 100%, rgba(142,68,255,.14), transparent 60%),
+        var(--bg-dark);
+    }
+
+    .ambient-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 56px 56px;
+      -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+      mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .container > * { animation: rise .8s cubic-bezier(.2,.8,.2,1) both; }
+    .container > *:nth-child(2) { animation-delay: .08s; }
+    .container > *:nth-child(3) { animation-delay: .16s; }
+    .container > *:nth-child(4) { animation-delay: .24s; }
+    .container > *:nth-child(5) { animation-delay: .32s; }
+    .container > *:nth-child(6) { animation-delay: .4s; }
+
+    .badge { box-shadow: 0 0 30px rgba(0,214,143,.18); }
+
+    h1 {
+      font-size: clamp(32px, 6vw, 56px);
+      letter-spacing: -1.2px;
+      background: linear-gradient(120deg, #ffffff 20%, #9be7ff 55%, #c9a6ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 6px 28px rgba(0,122,255,.35));
+    }
+
+    .owner-subtitle .line { width: 44px; opacity: .6;
+      background: linear-gradient(90deg, transparent, var(--accent-gold)); }
+    .owner-subtitle .line:last-child { background: linear-gradient(90deg, var(--accent-gold), transparent); }
+
+    .bank-card::after {
+      content: "";
+      position: absolute;
+      top: 0; left: -80%;
+      width: 55%; height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,.22), transparent);
+      transform: skewX(-18deg);
+      transition: left .9s ease;
+      pointer-events: none;
+      z-index: 3;
+    }
+    .bank-card:hover::after { left: 140%; }
+
+    .step { transition: transform .25s, border-color .25s, background .25s; }
+    .step:hover { transform: translateY(-3px); border-color: rgba(0,214,143,.4); background: rgba(0,214,143,.06); }
+
+    .warning-card { position: relative; overflow: hidden; }
+
+    /* Chek yuborish bo'limi */
+    .send-section {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      padding: clamp(24px, 5vw, 44px);
+      border-radius: 28px;
+      background: linear-gradient(160deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
+      border: 1px solid var(--card-border);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      box-shadow: 0 24px 60px rgba(0,0,0,.5), inset 0 1px 1px rgba(255,255,255,.12);
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+    }
+    .send-section::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 3px;
+      background: linear-gradient(90deg, #00d68f, #007aff, #8e44ff);
+    }
+
+    .send-head { text-align: center; }
+    .send-kicker {
+      display: inline-block;
+      font-size: 12px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 10px;
+    }
+    .send-head h2 { font-size: clamp(24px, 4vw, 34px); font-weight: 700; letter-spacing: -.5px; margin-bottom: 10px; }
+    .send-head p { color: rgba(255,255,255,.66); font-size: 14.5px; line-height: 1.55; max-width: 560px; margin: 0 auto; }
+    .send-head p b { color: #fff; font-weight: 600; }
+
+    .send-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .send-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 26px 24px 24px;
+      border-radius: 22px;
+      text-decoration: none;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.14);
+      transition: transform .35s cubic-bezier(.165,.84,.44,1), box-shadow .35s, border-color .35s;
+      overflow: hidden;
+    }
+    .send-card:hover { transform: translateY(-6px); }
+    .send-card h3 { font-size: 21px; font-weight: 700; letter-spacing: -.2px; }
+    .send-card p { color: rgba(255,255,255,.72); font-size: 14px; line-height: 1.55; flex: 1; }
+
+    .send-tg {
+      background: linear-gradient(150deg, rgba(34,158,217,.32), rgba(10,30,52,.9) 70%);
+      border-color: rgba(34,158,217,.45);
+      box-shadow: 0 14px 40px rgba(34,158,217,.18);
+    }
+    .send-tg:hover { box-shadow: 0 22px 55px rgba(34,158,217,.4); border-color: rgba(80,190,240,.8); }
+
+    .send-gf {
+      background: linear-gradient(150deg, rgba(142,68,255,.26), rgba(26,12,50,.9) 70%);
+      border-color: rgba(142,68,255,.38);
+    }
+    .send-gf:hover { box-shadow: 0 22px 55px rgba(142,68,255,.35); border-color: rgba(180,130,255,.75); }
+
+    .send-tag {
+      align-self: flex-start;
+      font-size: 11.5px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 100px;
+      background: rgba(0,214,143,.16); color: #35f0b0;
+      border: 1px solid rgba(0,214,143,.4);
+    }
+    .send-tag-soft { background: rgba(255,255,255,.08); color: rgba(255,255,255,.75); border-color: rgba(255,255,255,.18); }
+
+    .send-icon {
+      width: 56px; height: 56px; border-radius: 16px;
+      display: grid; place-items: center;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.18);
+    }
+    .send-tg .send-icon { background: linear-gradient(135deg, #2aabee, #229ed9); color: #fff; border: none; box-shadow: 0 10px 24px rgba(34,158,217,.45); }
+    .send-gf .send-icon { color: #d7b8ff; }
+
+    .send-btn {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      padding: 15px 18px; border-radius: 14px;
+      font-weight: 700; font-size: 15.5px; letter-spacing: .2px;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .send-btn svg { transition: transform .25s; }
+    .send-card:hover .send-btn svg { transform: translateX(5px); }
+    .send-btn-tg { background: linear-gradient(135deg, #2aabee, #1d8fd0); box-shadow: 0 10px 24px rgba(34,158,217,.4); }
+    .send-btn-gf { background: linear-gradient(135deg, #007aff, #8e44ff); box-shadow: 0 10px 24px rgba(0,122,255,.35); }
+
+    .contact-bar {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+      padding: 16px 20px; border-radius: 18px;
+      background: rgba(255,255,255,.045);
+      border: 1px solid rgba(255,255,255,.12);
+    }
+    .contact-info { display: flex; align-items: center; gap: 14px; }
+    .contact-icon {
+      width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center;
+      background: rgba(255,190,61,.14); color: var(--accent-gold); border: 1px solid rgba(255,190,61,.3);
+    }
+    .contact-label { display: block; font-size: 12px; color: rgba(255,255,255,.55); letter-spacing: .4px; margin-bottom: 2px; }
+    .contact-number { color: #fff; font-size: 19px; font-weight: 700; letter-spacing: .5px; text-decoration: none; font-family: 'Share Tech Mono', 'Space Grotesk', monospace; }
+    .contact-actions { display: flex; gap: 10px; }
+    .mini-btn {
+      font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; color: #fff;
+      padding: 10px 18px; border-radius: 12px; border: 1px solid transparent;
+      background: linear-gradient(135deg, #00d68f, #00a870); box-shadow: 0 8px 20px rgba(0,214,143,.28);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .mini-btn:hover { transform: translateY(-2px); }
+    .mini-btn-ghost { background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.2); box-shadow: none; }
+
+    .send-section .secure-note { justify-content: center; text-align: left; }
+
+    .page-footer { text-align: center; color: rgba(255,255,255,.4); font-size: 12.5px; letter-spacing: .6px; margin-top: 4px; }
+
+    .send-card:focus-visible, .mini-btn:focus-visible, .contact-number:focus-visible {
+      outline: 2px solid #00d68f; outline-offset: 3px;
+    }
+
+
+    .card-number { white-space: nowrap; font-size: clamp(14px, 4.2vw, 19px); letter-spacing: 1.5px; }
+
+    @media (max-width: 720px) {
+      .send-grid { grid-template-columns: 1fr; }
+      .contact-bar { flex-direction: column; align-items: stretch; text-align: left; }
+      .contact-actions .mini-btn { flex: 1; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-bg">
+    <div class="ambient-blob blob-1"></div>
+    <div class="ambient-blob blob-2"></div>
+    <div class="ambient-blob blob-3"></div>
+  </div>
+
+  <div class="container">
+    <header>
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Rasmiy To'lov Sahifasi
+      </div>
+      <h1>To'lov Kartalari</h1>
+      <div class="owner-subtitle">
+        <span class="line"></span>
+        ORIFJON NU'MONOV
+        <span class="line"></span>
+      </div>
+    </header>
+
+    <!-- Cards Grid -->
+    <div class="cards-grid">
+      <!-- Humo Card -->
+      <div class="card-wrapper">
+        <div class="bank-card card-humo" onclick="copyCard('9860160629730773', 'HUMO')">
+          <div class="card-top">
+            <div class="chip-container">
+              <div class="chip"></div>
+              <svg class="contactless-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M8.5 10a4 4 0 0 1 0 4"/>
+                <path d="M12 7a8 8 0 0 1 0 10"/>
+                <path d="M15.5 4a12 12 0 0 1 0 16"/>
+              </svg>
+            </div>
+            <div class="card-brand-logo">HUMO</div>
+          </div>
+
+          <div class="card-number-area">
+            <div class="card-number">9860 1606 2973 0773</div>
+            <button class="copy-icon-btn" title="Nusxalash" onclick="event.stopPropagation(); copyCard('9860160629730773', 'HUMO')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+            </button>
+          </div>
+
+          <div class="card-bottom">
+            <div class="card-holder-info">
+              <span class="info-label">Karta Egasi</span>
+              <span class="holder-name">ORIFJON NU'MONOV</span>
+            </div>
+            <div class="tap-hint">
+              <span>Nusxalash</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-label-tag">HUMO</div>
+      </div>
+
+      <!-- Uzcard Card -->
+      <div class="card-wrapper">
+        <div class="bank-card card-uzcard" onclick="copyCard('5614681851797195', 'UZCARD')">
+          <div class="card-top">
+            <div class="chip-container">
+              <div class="chip"></div>
+              <svg class="contactless-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M8.5 10a4 4 0 0 1 0 4"/>
+                <path d="M12 7a8 8 0 0 1 0 10"/>
+                <path d="M15.5 4a12 12 0 0 1 0 16"/>
+              </svg>
+            </div>
+            <div class="card-brand-logo">UZCARD</div>
+          </div>
+
+          <div class="card-number-area">
+            <div class="card-number">5614 6818 5179 7195</div>
+            <button class="copy-icon-btn" title="Nusxalash" onclick="event.stopPropagation(); copyCard('5614681851797195', 'UZCARD')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+            </button>
+          </div>
+
+          <div class="card-bottom">
+            <div class="card-holder-info">
+              <span class="info-label">Karta Egasi</span>
+              <span class="holder-name">ORIFJON NU'MONOV</span>
+            </div>
+            <div class="tap-hint">
+              <span>Nusxalash</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-label-tag">UZCARD</div>
+      </div>
+
+      <!-- Visa Card -->
+      <div class="card-wrapper">
+        <div class="bank-card card-visa" onclick="copyCard('4231200259678463', 'VISA')">
+          <div class="card-top">
+            <div class="chip-container">
+              <div class="chip"></div>
+              <svg class="contactless-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M8.5 10a4 4 0 0 1 0 4"/>
+                <path d="M12 7a8 8 0 0 1 0 10"/>
+                <path d="M15.5 4a12 12 0 0 1 0 16"/>
+              </svg>
+            </div>
+            <div class="card-brand-logo">VISA</div>
+          </div>
+
+          <div class="card-number-area">
+            <div class="card-number">4231 2002 5967 8463</div>
+            <button class="copy-icon-btn" title="Nusxalash" onclick="event.stopPropagation(); copyCard('4231200259678463', 'VISA')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+            </button>
+          </div>
+
+          <div class="card-bottom">
+            <div class="card-holder-info">
+              <span class="info-label">Karta Egasi</span>
+              <span class="holder-name">ORIFJON NU'MONOV</span>
+            </div>
+            <div class="tap-hint">
+              <span>Nusxalash</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-label-tag">VISA</div>
+      </div>
+    </div>
+
+    <section class="steps" aria-label="To‘lovni tasdiqlash bosqichlari">
+      <div class="step"><span class="step-number">1</span><span>Kartani tanlang va raqamini nusxalang</span></div>
+      <div class="step"><span class="step-number">2</span><span>To‘lovni amalga oshiring</span></div>
+      <div class="step"><span class="step-number">3</span><span>Chekni Telegram yoki Forma orqali yuboring</span></div>
+    </section>
+
+    <!-- Mandatory Warning Banner -->
+    <div class="warning-card">
+      <div class="warning-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </div>
+      <div class="warning-text">
+        <h4>DIQQAT: TO'LOV CHEKI MAJBURIY!</h4>
+        <p>Agar to'lov cheki quyida ko'rsatilgan usullardan biri orqali yuborilmasa, to'lov amalga oshirilmagan hisoblanadi.</p>
+      </div>
+    </div>
+
+    <!-- Chek yuborish -->
+    <section class="send-section" aria-labelledby="sendTitle">
+      <div class="send-head">
+        <span class="send-kicker">Oxirgi qadam</span>
+        <h2 id="sendTitle">To'lov chekini yuboring</h2>
+        <p>O'zingizga qulay usulni tanlang. Chekni yuborayotganda <b>ism-familiyangiz</b> va <b>telefon raqamingizni</b> ham yozing.</p>
+      </div>
+
+      <div class="send-grid">
+        <a class="send-card send-tg" href="https://t.me/orif_ads_admin" target="_blank" rel="noopener">
+          <span class="send-tag">Tavsiya etiladi · eng tez</span>
+          <span class="send-icon">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.6 19.7c-.2 1-.9 1.3-1.7.8l-4.8-3.6-2.3 2.3c-.3.3-.5.5-1 .5l.4-4.9 8.9-8c.4-.3-.1-.5-.6-.2L6.5 13.5 1.8 12c-1-.3-1-1 .2-1.5L20.3 3.4c.9-.3 1.6.2 1.6.9Z"/></svg>
+          </span>
+          <h3>Telegram orqali</h3>
+          <p>Chek skrinshotini adminga yuboring. Hech qanday hisob yoki ro'yxatdan o'tish shart emas.</p>
+          <span class="send-btn send-btn-tg">
+            <span>@orif_ads_admin</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </a>
+
+        <a class="send-card send-gf" href="https://docs.google.com/forms/d/e/1FAIpQLSf3QWiYHI18VOVoiVAhC3DWDWgjofQ8Ay6QcERZhb59gMTPvw/viewform" target="_blank" rel="noopener">
+          <span class="send-tag send-tag-soft">Forma orqali</span>
+          <span class="send-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>
+          </span>
+          <h3>Google Forma orqali</h3>
+          <p>Ism, telefon va chek faylini (skrinshot yoki PDF) formada to'ldirasiz. Google hisobiga kirish talab qilinadi.</p>
+          <span class="send-btn send-btn-gf">
+            <span>Formani ochish</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </a>
+      </div>
+
+      <div class="contact-bar">
+        <div class="contact-info">
+          <span class="contact-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </span>
+          <div>
+            <span class="contact-label">Aloqa uchun raqam</span>
+            <a class="contact-number" href="tel:+998335012345">+998 33 501 23 45</a>
+          </div>
+        </div>
+        <div class="contact-actions">
+          <a class="mini-btn" href="tel:+998335012345">Qo'ng'iroq</a>
+          <button type="button" class="mini-btn mini-btn-ghost" onclick="copyText('+998335012345', 'Telefon raqami')">Nusxalash</button>
+        </div>
+      </div>
+
+      <div class="secure-note">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="4" y="10" width="16" height="11" rx="2"></rect>
+          <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+        </svg>
+        <span>TELEGRAMDAN YUBORGANDA ALOQA UCHUN TEL RAQAM YOZIB QOYING!!</span>
+      </div>
+    </section>
+
+    <footer class="page-footer">ORIF-ADS · Ishonchli xizmat, tez tasdiqlash</footer>
+  </div>
+
+  <!-- Toast Element -->
+  <div class="toast" id="toast">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00d68f" stroke-width="2.5">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+    <span id="toastMsg">Karta raqami nusxalandi!</span>
+  </div>
+
+  <script>
+    function copyCard(number, cardType) {
+      navigator.clipboard.writeText(number).then(() => {
+        showToast(`${cardType} raqami nusxalandi! (${number})`);
+      }).catch(() => {
+        const textarea = document.createElement('textarea');
+        textarea.value = number;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        showToast(`${cardType} raqami nusxalandi!`);
+      });
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    function copyText(text, label) {
+      const done = () => showToast(`${label} nusxalandi!`);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+      } else {
+        fallbackCopy(text, done);
+      }
+    }
+
+    function fallbackCopy(text, done) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      done();
+    }
+  </script>
+</body>
+</html>
